@@ -2,6 +2,11 @@
 
 Full-stack application untuk manajemen produk dengan authentication, role-based access control, dan UI multi-platform (Web & Mobile). Sistem ini menyediakan fitur lengkap untuk admin mengelola produk dan user untuk menjelajahi katalog produk.
 
+## 🚀 Quick Access
+
+> **Live Demo:** [Web App](https://dev-web-products.vercel.app/) | [API Docs](https://dev-svc-products.vercel.app/docs)
+>
+
 ## 📋 Overview
 
 Project ini terdiri dari 3 komponen utama:
@@ -23,6 +28,32 @@ Membangun sistem manajemen produk full-stack yang mencakup:
 - ✅ Role-based access control (Admin & User)
 - ✅ CRUD operations untuk produk dan user
 - ✅ Advanced filtering, sorting, dan pagination
+
+---
+
+## 🌐 Live Demo
+
+Aplikasi sudah di-deploy dan bisa diakses secara online:
+
+### 🖥️ Web Application
+**🔗 URL:** [https://dev-web-products.vercel.app/](https://dev-web-products.vercel.app/)
+
+**Try it now!** Login dengan credentials berikut:
+
+
+### 📚 API Documentation
+**🔗 Interactive Docs:** [https://dev-svc-products.vercel.app/docs](https://dev-svc-products.vercel.app/docs#/)
+
+**🔗 ReDoc:** [https://dev-svc-products.vercel.app/redoc](https://dev-svc-products.vercel.app/redoc)
+
+Explore dan test semua API endpoints dengan Swagger UI.
+
+**API Base URL:** `https://dev-svc-products.vercel.app/api/v1`
+
+### 📱 Mobile App
+Flutter mobile app bisa di-build sendiri (lihat [Mobile Documentation](./mobile/README.md)).
+
+**✅ App sudah dikonfigurasi untuk connect ke production API** - Langsung `flutter run` dan bisa login!
 
 ---
 
@@ -258,12 +289,19 @@ flutter pub get
 # Generate JSON serialization code
 flutter pub run build_runner build --delete-conflicting-outputs
 
-# Configure API URL (edit lib/config/app_config.dart)
-# For emulator: http://localhost:8000/api/v1
-# For physical device: http://192.168.X.X:8000/api/v1
-
-# Run app
+# Run app (default menggunakan production API)
 flutter run
+```
+
+**📱 Mobile app sudah dikonfigurasi untuk connect ke production API:**
+- Default: `https://dev-svc-products.vercel.app/api/v1`
+
+**Untuk local development, edit** `lib/config/app_config.dart`:
+```dart
+// Change apiBaseUrl to:
+static const String apiBaseUrl = 'http://localhost:8000/api/v1';        // Emulator
+// OR
+static const String apiBaseUrl = 'http://192.168.X.X:8000/api/v1';     // Physical device
 ```
 
 ---
