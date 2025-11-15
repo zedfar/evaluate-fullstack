@@ -44,7 +44,6 @@ Aplikasi sudah di-deploy dan bisa diakses secara online:
 ### 📚 API Documentation
 **🔗 Interactive Docs:** [https://dev-svc-products.vercel.app/docs](https://dev-svc-products.vercel.app/docs#/)
 
-**🔗 ReDoc:** [https://dev-svc-products.vercel.app/redoc](https://dev-svc-products.vercel.app/redoc)
 
 Explore dan test semua API endpoints dengan Swagger UI.
 
