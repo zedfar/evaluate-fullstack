@@ -119,7 +119,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            'Filters',
+                            'Filter',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                           children: [
                             // Category Filter
                             const Text(
-                              'Category',
+                              'Kategori',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -149,12 +149,12 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                               value: tempCategoryId,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
-                                hintText: 'All Categories',
+                                hintText: 'Semua Kategori',
                               ),
                               items: [
                                 const DropdownMenuItem(
                                   value: null,
-                                  child: Text('All Categories'),
+                                  child: Text('Semua Kategori'),
                                 ),
                                 ...categoryState.categories.map((category) {
                                   return DropdownMenuItem(
@@ -173,7 +173,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
 
                             // Sort By
                             const Text(
-                              'Sort By',
+                              'Urutkan Berdasarkan',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -184,28 +184,28 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                               value: tempSortBy,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
-                                hintText: 'Default',
+                                hintText: 'Standar',
                               ),
                               items: const [
                                 DropdownMenuItem(
                                   value: null,
-                                  child: Text('Default'),
+                                  child: Text('Standar'),
                                 ),
                                 DropdownMenuItem(
                                   value: 'name',
-                                  child: Text('Name'),
+                                  child: Text('Nama'),
                                 ),
                                 DropdownMenuItem(
                                   value: 'price',
-                                  child: Text('Price'),
+                                  child: Text('Harga'),
                                 ),
                                 DropdownMenuItem(
                                   value: 'stock',
-                                  child: Text('Stock'),
+                                  child: Text('Stok'),
                                 ),
                                 DropdownMenuItem(
                                   value: 'created_at',
-                                  child: Text('Date Created'),
+                                  child: Text('Terbaru'),
                                 ),
                               ],
                               onChanged: (value) {
@@ -218,7 +218,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
 
                             // Sort Order
                             const Text(
-                              'Sort Order',
+                              'Urutan',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -233,11 +233,11 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                               items: const [
                                 DropdownMenuItem(
                                   value: 'asc',
-                                  child: Text('Ascending'),
+                                  child: Text('Naik (A-Z, 0-9)'),
                                 ),
                                 DropdownMenuItem(
                                   value: 'desc',
-                                  child: Text('Descending'),
+                                  child: Text('Turun (Z-A, 9-0)'),
                                 ),
                               ],
                               onChanged: (value) {
@@ -264,7 +264,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                                 _fetchProducts();
                                 Navigator.pop(context);
                               },
-                              child: const Text('Clear'),
+                              child: const Text('Bersihkan'),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -280,7 +280,10 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                                 _fetchProducts();
                                 Navigator.pop(context);
                               },
-                              child: const Text('Apply'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFFF6B00),
+                              ),
+                              child: const Text('Terapkan'),
                             ),
                           ),
                         ],
@@ -302,7 +305,10 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products'),
+        title: const Text('Daftar Produk'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        foregroundColor: Colors.black87,
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
@@ -318,8 +324,8 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search products...',
-                prefixIcon: const Icon(Icons.search),
+                hintText: 'Cari produk...',
+                prefixIcon: const Icon(Icons.search, color: Color(0xFFFF6B00)),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
@@ -330,6 +336,14 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                         },
                       )
                     : null,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFFF6B00), width: 2),
+                ),
               ),
               onChanged: _onSearchChanged,
             ),
@@ -338,7 +352,16 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
           // Products Grid
           Expanded(
             child: productState.isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: CircularProgressIndicator(
+                        color: Color(0xFFFF6B00),
+                        strokeWidth: 3,
+                      ),
+                    ),
+                  )
                 : productState.error != null
                     ? Center(
                         child: Padding(
@@ -348,7 +371,7 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                             children: [
                               const Icon(
                                 Icons.error_outline,
-                                size: 48,
+                                size: 64,
                                 color: Colors.red,
                               ),
                               const SizedBox(height: 16),
@@ -360,26 +383,48 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
                               const SizedBox(height: 16),
                               ElevatedButton(
                                 onPressed: _fetchProducts,
-                                child: const Text('Retry'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFFF6B00),
+                                ),
+                                child: const Text('Coba Lagi'),
                               ),
                             ],
                           ),
                         ),
                       )
                     : productState.products.isEmpty
-                        ? const Center(
-                            child: Text('No products found'),
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.shopping_bag_outlined,
+                                  size: 64,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  'Tidak ada produk ditemukan',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         : RefreshIndicator(
                             onRefresh: () async => _fetchProducts(),
+                            color: const Color(0xFFFF6B00),
                             child: GridView.builder(
                               padding: const EdgeInsets.all(16),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                childAspectRatio: 0.75,
-                                crossAxisSpacing: 12,
-                                mainAxisSpacing: 12,
+                                childAspectRatio: 0.68,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
                               ),
                               itemCount: productState.products.length,
                               itemBuilder: (context, index) {
@@ -396,25 +441,41 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
           // Pagination
           if (productState.metadata != null && productState.metadata!.totalPages > 1)
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(top: BorderSide(color: Colors.grey[200]!)),
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.chevron_left),
-                    onPressed: _currentPage > 1
-                        ? () => _onPageChanged(_currentPage - 1)
-                        : null,
-                  ),
                   Text(
-                    'Page $_currentPage of ${productState.metadata!.totalPages}',
-                    style: const TextStyle(fontSize: 16),
+                    'Total: ${productState.metadata!.total} produk',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right),
-                    onPressed: _currentPage < productState.metadata!.totalPages
-                        ? () => _onPageChanged(_currentPage + 1)
-                        : null,
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.chevron_left),
+                        color: _currentPage > 1 ? const Color(0xFFFF6B00) : Colors.grey,
+                        onPressed: _currentPage > 1
+                            ? () => _onPageChanged(_currentPage - 1)
+                            : null,
+                      ),
+                      Text(
+                        'Hal $_currentPage / ${productState.metadata!.totalPages}',
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.chevron_right),
+                        color: _currentPage < productState.metadata!.totalPages
+                            ? const Color(0xFFFF6B00)
+                            : Colors.grey,
+                        onPressed: _currentPage < productState.metadata!.totalPages
+                            ? () => _onPageChanged(_currentPage + 1)
+                            : null,
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -11,25 +11,25 @@ class User extends Equatable {
   @JsonKey(name: 'full_name')
   final String fullName;
   @JsonKey(name: 'role_id')
-  final String roleId;
+  final String? roleId;
   final Role? role;
   @JsonKey(name: 'is_active')
-  final bool isActive;
+  final bool? isActive;
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final String? updatedAt;
 
   const User({
     required this.id,
     required this.email,
     required this.username,
     required this.fullName,
-    required this.roleId,
+    this.roleId,
     this.role,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -80,16 +80,16 @@ class Role extends Equatable {
   final String name;
   final String? description;
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final String? updatedAt;
 
   const Role({
     required this.id,
     required this.name,
     this.description,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Role.fromJson(Map<String, dynamic> json) => _$RoleFromJson(json);
@@ -136,12 +136,15 @@ class AuthResponse {
   @JsonKey(name: 'access_token')
   final String accessToken;
   @JsonKey(name: 'refresh_token')
-  final String refreshToken;
+  final String? refreshToken;  // Nullable because API might not return it
+  @JsonKey(name: 'token_type')
+  final String? tokenType;      // Optional field from API
   final User metadata;
 
   const AuthResponse({
     required this.accessToken,
-    required this.refreshToken,
+    this.refreshToken,
+    this.tokenType,
     required this.metadata,
   });
 

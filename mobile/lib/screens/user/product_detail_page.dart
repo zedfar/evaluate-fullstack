@@ -291,14 +291,16 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text(
-                                                productState
-                                                    .product!.creator!.email,
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey[600],
+                                              // Only show email if it exists
+                                              if (productState.product!.creator!.email != null)
+                                                Text(
+                                                  productState
+                                                      .product!.creator!.email!,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey[600],
+                                                  ),
                                                 ),
-                                              ),
                                             ],
                                           ),
                                         ],

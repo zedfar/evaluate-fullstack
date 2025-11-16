@@ -41,7 +41,7 @@ dependencies:
   logger: ^2.0.2+1
 
   # JSON Serialization
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
 
   # Shared Preferences
   shared_preferences: ^2.2.2

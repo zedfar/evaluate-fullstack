@@ -13,7 +13,7 @@ class Product extends Equatable {
   @JsonKey(name: 'low_stock_threshold')
   final int lowStockThreshold;
   @JsonKey(name: 'stock_status')
-  final String? stockStatus;
+  final String? stockStatus;  // Always returned by API but nullable for safety
   @JsonKey(name: 'image_url')
   final String? imageUrl;
   @JsonKey(name: 'category_id')
@@ -21,11 +21,11 @@ class Product extends Equatable {
   final Category? category;
   final ProductCreator? creator;
   @JsonKey(name: 'created_by')
-  final String createdBy;
+  final String? createdBy;  // Made nullable - might not be in all responses
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;  // Made nullable - might not be in all responses
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final String? updatedAt;  // Made nullable - might not be in all responses
 
   const Product({
     required this.id,
@@ -39,9 +39,9 @@ class Product extends Equatable {
     required this.categoryId,
     this.category,
     this.creator,
-    required this.createdBy,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdBy,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) =>
@@ -108,19 +108,19 @@ class Category extends Equatable {
   final String name;
   final String? description;
   @JsonKey(name: 'created_by')
-  final String createdBy;
+  final String? createdBy;  // Made nullable
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;  // Made nullable
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final String? updatedAt;  // Made nullable
 
   const Category({
     required this.id,
     required this.name,
     this.description,
-    required this.createdBy,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdBy,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) =>
@@ -137,12 +137,12 @@ class Category extends Equatable {
 class ProductCreator extends Equatable {
   final String id;
   final String username;
-  final String email;
+  final String? email;  // Made nullable - API doesn't always send this field
 
   const ProductCreator({
     required this.id,
     required this.username,
-    required this.email,
+    this.email,  // Optional parameter
   });
 
   factory ProductCreator.fromJson(Map<String, dynamic> json) =>

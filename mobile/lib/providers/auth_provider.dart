@@ -83,17 +83,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: password,
       );
 
+      print('📤 Sending login request...');
       final authResponse = await _authService.login(credentials);
       print('✅ Login API success, got token and user: ${authResponse.metadata.username}');
+      print('📦 Raw user data: ${authResponse.metadata.toJson()}');
       print('👤 User role: ${authResponse.metadata.role?.name}');
+      print('🔑 Role ID: ${authResponse.metadata.roleId}');
 
       // Save tokens and user data
-      await _storage.saveAuthData(
-        accessToken: authResponse.accessToken,
-        refreshToken: authResponse.refreshToken,
-        user: authResponse.metadata,
-      );
-      print('💾 Saved auth data to storage');
+      print('💾 Saving auth data to storage...');
+      print('🔑 Access Token: ${authResponse.accessToken.substring(0, 20)}...');
+      print('🔄 Refresh Token: ${authResponse.refreshToken ?? "null (not provided by API)"}');
+
+      await _storage.saveAccessToken(authResponse.accessToken);
+      if (authResponse.refreshToken != null) {
+        await _storage.saveRefreshToken(authResponse.refreshToken!);
+      }
+      await _storage.saveUser(authResponse.metadata);
+
+      print('✅ Saved auth data to storage');
 
       state = AuthState(
         user: authResponse.metadata,
@@ -103,11 +111,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
       print('✨ Auth state updated - isAuthenticated: ${state.isAuthenticated}, isAdmin: ${state.isAdmin}');
 
       return true;
-    } catch (e) {
+    } catch (e, stackTrace) {
       print('❌ Login failed: $e');
+      print('📍 Stack trace: $stackTrace');
+
+      String errorMessage = 'Login failed';
+      if (e.toString().contains('type') && e.toString().contains('subtype')) {
+        errorMessage = 'Invalid response format from server. Please regenerate JSON code.';
+      } else {
+        errorMessage = e.toString();
+      }
+
       state = state.copyWith(
         isLoading: false,
-        error: e.toString(),
+        error: errorMessage,
       );
       return false;
     }
@@ -133,11 +150,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final authResponse = await _authService.register(registerData);
 
       // Save tokens and user data
-      await _storage.saveAuthData(
-        accessToken: authResponse.accessToken,
-        refreshToken: authResponse.refreshToken,
-        user: authResponse.metadata,
-      );
+      await _storage.saveAccessToken(authResponse.accessToken);
+      if (authResponse.refreshToken != null) {
+        await _storage.saveRefreshToken(authResponse.refreshToken!);
+      }
+      await _storage.saveUser(authResponse.metadata);
 
       state = AuthState(
         user: authResponse.metadata,

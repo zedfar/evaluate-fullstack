@@ -224,7 +224,7 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                                   ),
                                   child: ListTile(
                                     leading: CircleAvatar(
-                                      backgroundColor: user.isActive
+                                      backgroundColor: (user.isActive ?? false)
                                           ? Colors.blue
                                           : Colors.grey,
                                       child: Text(
@@ -281,19 +281,19 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                                                 vertical: 2,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: user.isActive
+                                                color: (user.isActive ?? false)
                                                     ? Colors.green[100]
                                                     : Colors.red[100],
                                                 borderRadius:
                                                     BorderRadius.circular(4),
                                               ),
                                               child: Text(
-                                                user.isActive
+                                                (user.isActive ?? false)
                                                     ? 'Active'
                                                     : 'Inactive',
                                                 style: TextStyle(
                                                   fontSize: 11,
-                                                  color: user.isActive
+                                                  color: (user.isActive ?? false)
                                                       ? Colors.green[900]
                                                       : Colors.red[900],
                                                 ),
@@ -307,7 +307,7 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                                       itemBuilder: (context) => [
                                         PopupMenuItem(
                                           value: 'toggle',
-                                          child: Text(user.isActive
+                                          child: Text((user.isActive ?? false)
                                               ? 'Deactivate'
                                               : 'Activate'),
                                         ),
@@ -323,7 +323,7 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                                       onSelected: (value) {
                                         if (value == 'toggle') {
                                           _toggleActiveStatus(
-                                              user.id, user.isActive);
+                                              user.id, user.isActive ?? false);
                                         } else if (value == 'delete') {
                                           _deleteUser(user.id, user.username);
                                         }
